@@ -20,4 +20,29 @@ along with imageruby-bmp-c.  if not, see <http://www.gnu.org/licenses/>.
 =end
 require "imageruby_bmp_base"
 
+module ImageRuby
+  class BmpCDecoder < ImageRuby::Decoder
+    def decode(data, image_class)
+      if data[0..1] != "BM"
+        raise UnableToDecodeException
+      end
+
+      image = image_class.new(width,height)
+      ImageRubyBmpC.decode_bitmap(data, image)
+      image
+    end
+  end
+
+  class BmpCEncoder < ImageRuby::Decoder
+    def encode(image, format, output)
+      if format != :bmp
+        raise UnableToEncodeException
+      end
+
+      output << ImageRubyBmpC.encode_bitmap(image)
+    end
+  end
+
+end
+
 
