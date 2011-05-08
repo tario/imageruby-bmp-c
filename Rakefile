@@ -13,6 +13,8 @@ spec = Gem::Specification.new do |s|
   s.summary = 'Provides the encoder and decoder for images in bmp format (written in C)'
   s.homepage = "http://github.com/tario/imageruby-bmp-c"
   s.has_rdoc = true
+  s.extensions = FileList["ext/**/extconf.rb"].to_a
+
   s.extra_rdoc_files = [ 'README' ]
 #  s.rdoc_options << '--main' << 'README'
   s.files = Dir.glob("{lib}/**/*") +
