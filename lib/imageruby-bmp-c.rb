@@ -27,6 +27,11 @@ module ImageRuby
         raise UnableToDecodeException
       end
 
+      dib_header = data[14..54]
+
+      width = dib_header[4..7].unpack("L").first
+      height = dib_header[8..11].unpack("L").first
+
       image = image_class.new(width,height)
       ImageRubyBmpC.decode_bitmap(data, image)
       image
