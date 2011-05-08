@@ -18,6 +18,21 @@ you should have received a copy of the gnu general public license
 along with imageruby-bmp-c.  if not, see <http://www.gnu.org/licenses/>.
 
 */
+require "ruby.h"
+
+VALUE m_ImageRubyBmpC;
+
+VALUE rb_decode_bitmap(VALUE recv, VALUE data, VALUE image) {
+	return Qnil;
+}
+
+VALUE rb_encode_bitmap(VALUE recv, VALUE image) {
+	return Qnil;
+}
 
 extern void Init_imageruby_bmp_base() {
+	m_ImageRubyBmpC = rb_define_module("ImageRubyBmpC")
+
+	rb_define_singleton_method(m_ImageRubyBmpC, "decode_bitmap", rb_decode_bitmap, 2);
+	rb_define_singleton_method(m_ImageRubyBmpC, "encode_bitmap", rb_encode_bitmap, 1);
 }
