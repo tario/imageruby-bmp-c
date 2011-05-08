@@ -1,7 +1,7 @@
 require 'mkmf'
-dir_config('imagecruby_base')
+dir_config('imageruby_bmp_base')
 CONFIG['CC'] = 'gcc'
-create_makefile('imagecruby_base')
+create_makefile('imageruby_bmp_base')
 
 
 
