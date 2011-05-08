@@ -55,6 +55,21 @@ VALUE rb_decode_bitmap(VALUE recv, VALUE rb_data, VALUE rb_image) {
 	  }
 
 	} else if (bpp == 32) {
+	  int width_array_len = width*3;
+	  int offset;
+      int x,y;
+
+	  for (y=0; y<height; y++) {
+	    for (x=0; x<width; x++) {
+
+            int offset = pixel_data_offset+x*4+(height-y-1)*width_array_len;
+            int index = (y*width+x)*3;
+
+            image_pixel_data_string[index] = file_pixel_data_string[offset];
+            image_pixel_data_string[index+1] = file_pixel_data_string[offset+1];
+            image_pixel_data_string[index+2] = file_pixel_data_string[offset+2];
+		}
+	  }
 
 	}
 
