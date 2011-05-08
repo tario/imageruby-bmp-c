@@ -38,7 +38,7 @@ module ImageRuby
     end
   end
 
-  class BmpCEncoder < ImageRuby::Decoder
+  class BmpCEncoder < ImageRuby::Encoder
 
     def encode(image, format, output)
       unless format == :bmp
