@@ -18,11 +18,46 @@ you should have received a copy of the gnu general public license
 along with imageruby-bmp-c.  if not, see <http://www.gnu.org/licenses/>.
 
 */
-require "ruby.h"
+
+#include "ruby.h"
 
 VALUE m_ImageRubyBmpC;
+ID id_pixel_data;
 
-VALUE rb_decode_bitmap(VALUE recv, VALUE data, VALUE image) {
+int get_int(const char* ptr) {
+	return *((int*)ptr);
+}
+
+VALUE rb_decode_bitmap(VALUE recv, VALUE rb_data, VALUE rb_image) {
+	const char* data_string = RSTRING(rb_data)->ptr;
+	const char* dib_header = data_string + 14;
+	const char* header = data_string;
+
+	int pixel_data_offset = get_int(header+10);
+	int width = get_int(dib_header+4);
+	int height = get_int(dib_header+8);
+
+	int bpp = get_int(dib_header+14);
+
+	VALUE rb_pixel_data = rb_funcall(rb_image, id_pixel_data, 0);
+	char* image_pixel_data_string = RSTRING(rb_pixel_data)->ptr;
+
+	const char* file_pixel_data_string = data_string+pixel_data_offset;
+
+	if (bpp == 24) {
+	  int padding_size = ( 4 - (width * 3 % 4) ) % 4;
+	  int width_array_len = width*3+padding_size;
+	  int offset;
+      int y;
+
+	  for (y=0; y<height; y++) {
+		memcpy(image_pixel_data_string+(y*width)*3,  file_pixel_data_string+(height-y-1)*width_array_len,  width*3);
+	  }
+
+	} else if (bpp == 32) {
+
+	}
+
 	return Qnil;
 }
 
@@ -31,7 +66,9 @@ VALUE rb_encode_bitmap(VALUE recv, VALUE image) {
 }
 
 extern void Init_imageruby_bmp_base() {
-	m_ImageRubyBmpC = rb_define_module("ImageRubyBmpC")
+	m_ImageRubyBmpC = rb_define_module("ImageRubyBmpC");
+
+	id_pixel_data = rb_intern("pixel_data");
 
 	rb_define_singleton_method(m_ImageRubyBmpC, "decode_bitmap", rb_decode_bitmap, 2);
 	rb_define_singleton_method(m_ImageRubyBmpC, "encode_bitmap", rb_encode_bitmap, 1);
