@@ -60,7 +60,7 @@ VALUE rb_decode_bitmap(VALUE recv, VALUE rb_data, VALUE rb_image) {
       int x,y;
 
       VALUE rb_alpha_data = rb_funcall(rb_image, id_alpha_data, 0);
-      const char* alpha_data_string = RSTRING(rb_alpha_data)->ptr;
+      char* alpha_data_string = RSTRING(rb_alpha_data)->ptr;
 
 	  for (y=0; y<height; y++) {
 	    for (x=0; x<width; x++) {
