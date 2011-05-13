@@ -59,6 +59,9 @@ VALUE rb_decode_bitmap(VALUE recv, VALUE rb_data, VALUE rb_image) {
 	  int offset;
       int x,y;
 
+      VALUE rb_alpha_data = rb_funcall(rb_image, id_alpha_data, 0);
+      const char* alpha_data_string = RSTRING(rb_alpha_data)->ptr;
+
 	  for (y=0; y<height; y++) {
 	    for (x=0; x<width; x++) {
 
@@ -68,6 +71,8 @@ VALUE rb_decode_bitmap(VALUE recv, VALUE rb_data, VALUE rb_image) {
             image_pixel_data_string[index] = file_pixel_data_string[offset];
             image_pixel_data_string[index+1] = file_pixel_data_string[offset+1];
             image_pixel_data_string[index+2] = file_pixel_data_string[offset+2];
+
+            alpha_data_string[y*width+x] = file_pixel_data_string[offset+3];
 		}
 	  }
 
