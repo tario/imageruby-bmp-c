@@ -22,7 +22,7 @@ along with imageruby-bmp-c.  if not, see <http://www.gnu.org/licenses/>.
 #include "ruby.h"
 
 VALUE m_ImageRubyBmpC;
-ID id_pixel_data;
+ID id_pixel_data, id_alpha_data;
 
 int get_int(const char* ptr) {
 	return *((int*)ptr);
@@ -89,6 +89,7 @@ extern void Init_imageruby_bmp_base() {
 	m_ImageRubyBmpC = rb_define_module("ImageRubyBmpC");
 
 	id_pixel_data = rb_intern("pixel_data");
+	id_alpha_data = rb_intern("alpha_data");
 
 	rb_define_singleton_method(m_ImageRubyBmpC, "decode_bitmap", rb_decode_bitmap, 2);
 	rb_define_singleton_method(m_ImageRubyBmpC, "encode_bitmap", rb_encode_bitmap, 1);
