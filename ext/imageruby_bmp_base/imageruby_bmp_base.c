@@ -65,7 +65,7 @@ VALUE rb_decode_bitmap(VALUE recv, VALUE rb_data, VALUE rb_image) {
 	  for (y=0; y<height; y++) {
 	    for (x=0; x<width; x++) {
 
-            int offset = pixel_data_offset+x*4+(height-y-1)*width_array_len;
+            int offset = ((height-y-1)*width+x)*4;
             int index = (y*width+x)*3;
 
             image_pixel_data_string[index] = file_pixel_data_string[offset];
